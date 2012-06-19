@@ -17,13 +17,13 @@ module NewRelic
         # Check a sequence of file locations for newrelic.yml
         def config_file
           files = []
+          files << File.expand_path(ENV["NRCONFIG"]) if ENV["NRCONFIG"]
           files << File.join(root,"config","newrelic.yml")
           files << File.join(root,"newrelic.yml")
           if ENV["HOME"]
             files << File.join(ENV["HOME"], ".newrelic", "newrelic.yml")
             files << File.join(ENV["HOME"], "newrelic.yml")
           end
-          files << File.expand_path(ENV["NRCONFIG"]) if ENV["NRCONFIG"]
           files.each do | file |
             return File.expand_path(file) if File.exists? file
           end
